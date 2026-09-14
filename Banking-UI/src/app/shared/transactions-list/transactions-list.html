@@ -1,0 +1,26 @@
+@if (transactions.length === 0) {
+  <div class="txn-empty">No recent transactions.</div>
+} @else {
+  <ul class="txn-list">
+    @for (t of transactions; track t.transactionId) {
+      <li class="txn-item">
+        <div class="txn-left">
+          <div class="txn-icon">
+            @if (isCredit(t)) {
+              <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            } @else {
+              <svg viewBox="0 0 24 24"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            }
+          </div>
+          <div>
+            <div class="txn-name">{{ t.description || (isCredit(t) ? 'Credit' : 'Debit') }}</div>
+            <div class="txn-meta">{{ t.status || t.type }} · {{ formatDate(t) }}</div>
+          </div>
+        </div>
+        <div class="txn-amount" [class.positive]="isCredit(t)" [class.negative]="!isCredit(t)">
+          {{ formatAmount(t) }}
+        </div>
+      </li>
+    }
+  </ul>
+}

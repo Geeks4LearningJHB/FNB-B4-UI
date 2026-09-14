@@ -1,0 +1,171 @@
+:host { position: relative; display: block; }
+
+// ── Decorative background (light mode only — see --blob-opacity in app.scss) ──
+.dash-bg {
+  position: fixed;
+  inset: 64px 0 0 236px; // below titlebar, right of sidebar
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--blob-opacity, 1);
+
+  @media (max-width: 768px) { inset: 64px 0 0 0; }
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+.blob-1 { top: -80px; right: -60px; width: 380px; height: 380px; background: radial-gradient(circle, rgba(22,163,156,.22), transparent 70%); }
+.blob-2 { bottom: -100px; right: 10%; width: 420px; height: 420px; background: radial-gradient(circle, rgba(194,24,91,.14), transparent 70%); }
+.blob-3 { bottom: -140px; left: -80px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(22,163,156,.16), transparent 70%); }
+
+.dash-content { position: relative; z-index: 1; }
+
+// ── Breadcrumb / head row ──────────────────────────────────────────────────
+.breadcrumb-row {
+  font-size: 12.5px; color: var(--grey);
+  margin-bottom: 14px;
+  a { color: var(--grey); font-weight: 600; }
+  .sep { margin: 0 6px; }
+  .current { color: var(--grey); }
+}
+
+.head-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 26px; gap: 16px; flex-wrap: wrap;
+}
+
+.welcome-title {
+  font-size: 28px; font-weight: 800; color: var(--ink); margin: 0;
+  .accent { color: var(--teal); }
+}
+.welcome-sub { color: var(--grey); margin-top: 6px; font-size: 14.5px; }
+
+// ── Stat cards ────────────────────────────────────────────────────────────
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 22px 24px;
+  color: var(--ink);
+}
+
+.stat-total {
+  background: var(--card-total-bg);
+  color: #fff;
+  border: none;
+  box-shadow: 0 10px 28px rgba(13,107,99,.28);
+}
+
+.stat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+
+.stat-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.18); color: #fff;
+  svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+  &.icon-teal { background: rgba(22,163,156,.12); color: var(--teal); }
+  &.icon-green { background: #00847e; color: #fff; }
+}
+
+.stat-chevron { width: 16px; height: 16px; stroke: currentColor; opacity: .6; fill: none; stroke-width: 2; }
+
+.stat-label { font-size: 12px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; opacity: .85; }
+.stat-value { font-size: 30px; font-weight: 800; margin-top: 8px; }
+.stat-value.dark { color: var(--ink); }
+.stat-sub { font-size: 13px; margin-top: 4px; opacity: .75; }
+
+// ── Section label ─────────────────────────────────────────────────────────
+.section-label {
+  font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 14px;
+  span { display: inline-block; padding-bottom: 6px; border-bottom: 2px solid var(--teal); }
+}
+.section-label-spaced { margin-top: 34px; }
+
+.section-title-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+  h2 { font-size: 16.5px; font-weight: 700; color: var(--ink); margin: 0; }
+}
+
+// ── Account rows ──────────────────────────────────────────────────────────
+.acc-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 18px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  transition: border-color .15s, box-shadow .15s;
+
+  &:hover { border-color: var(--teal); box-shadow: var(--shadow-md); }
+}
+
+.acc-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: var(--card-total-bg);
+  display: flex; align-items: center; justify-content: center;
+  svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 1.6; }
+}
+
+.acc-main { display: flex; flex-direction: column; gap: 5px; }
+.acc-main strong { font-size: 15.5px; color: var(--ink); }
+.acc-num { font-family: ui-monospace, monospace; font-size: 12.5px; color: var(--grey); letter-spacing: 1px; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px;
+  padding: 3px 10px; border-radius: 999px; width: fit-content;
+  background: var(--success-bg); color: var(--success);
+
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  &.muted { background: var(--bg); color: var(--grey); }
+}
+
+.acc-progress { width: 160px; display: none; }
+.acc-progress .track { height: 6px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+.acc-progress .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--teal-dark), var(--teal)); }
+
+@media (min-width: 900px) { .acc-progress { display: block; } }
+
+.acc-bal { text-align: right; }
+.acc-bal .label { font-size: 10.5px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--grey); }
+.acc-bal .bal { font-size: 17px; font-weight: 800; color: var(--ink); margin-top: 2px; }
+
+.acc-arrow { width: 18px; height: 18px; stroke: var(--grey); fill: none; stroke-width: 2; }
+
+// ── States ────────────────────────────────────────────────────────────────
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  &.card-pad { padding: 26px 28px; }
+}
+.spinner-row {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--grey);
+  &.warn { color: var(--error); }
+}
+
+@media (max-width: 768px) {
+  .acc-row { grid-template-columns: auto 1fr auto; }
+  .acc-progress { display: none !important; }
+}

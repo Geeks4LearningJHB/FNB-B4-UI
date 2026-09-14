@@ -1,0 +1,113 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,26,0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  &.active { display: flex; }
+}
+
+.settings-modal-panel {
+  background: var(--white, #FEFEFE);
+  border-radius: 14px;
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(26,26,26,0.12);
+}
+
+.modal-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border, #E0E0E0);
+
+  h3 { margin: 0; font-size: 17px; font-weight: 700; color: var(--ink, #1A1A1A); }
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: var(--grey, #666);
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  &:hover { color: var(--ink, #1A1A1A); background: var(--bg, #F6F7F8); }
+}
+
+.settings-section {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border, #E0E0E0);
+  &:last-child { border-bottom: none; }
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settings-row-label { font-size: 14.5px; font-weight: 600; color: var(--ink, #1A1A1A); margin-bottom: 2px; }
+.settings-row-sub { font-size: 12.5px; color: var(--grey, #666); }
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  input { opacity: 0; width: 0; height: 0; }
+
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--border, #E0E0E0);
+    border-radius: 13px;
+    transition: background .2s ease;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      transition: transform .2s ease;
+    }
+  }
+
+  input:checked + .toggle-track { background: var(--teal, #00847e); }
+  input:checked + .toggle-track::after { transform: translateX(20px); }
+}
+
+.font-size-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+
+  span { font-size: 13px; font-weight: 600; min-width: 38px; text-align: center; color: var(--ink, #1A1A1A); }
+
+  .btn-secondary {
+    padding: 8px 14px;
+    font-size: 13px;
+    background: var(--white, #FEFEFE);
+    color: var(--ink, #1A1A1A);
+    border: 1px solid var(--border, #E0E0E0);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    &:hover { border-color: var(--orange, #FE8211); color: var(--orange, #FE8211); }
+  }
+}

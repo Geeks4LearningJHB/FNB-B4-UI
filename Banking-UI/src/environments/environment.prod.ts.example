@@ -1,0 +1,12 @@
+// Template for src/environments/environment.prod.ts (git-ignored — never commit the real one).
+// Copy this file to environment.prod.ts and fill in a real token before running
+// `ng build --configuration production` (angular.json's fileReplacements swaps it in).
+//
+// Mint a token with:
+//   node ../BankingAPI/local-dev/make-token.js user <customer-id-uuid> 31536000
+// sub must be a real customer_id in whichever database apiBaseUrl points at.
+export const environment = {
+  production: true,
+  apiBaseUrl: 'https://fnb-b4-ibs-banking-api-service-k8q7.onrender.com/api',
+  devToken: 'PASTE_YOUR_MINTED_TOKEN_HERE',
+};

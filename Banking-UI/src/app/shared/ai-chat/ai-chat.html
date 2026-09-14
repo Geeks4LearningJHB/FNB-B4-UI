@@ -1,0 +1,67 @@
+<div id="ai-chat-root" [class.visible]="true">
+
+  <!-- Floating trigger -->
+  <button class="ai-fab" (click)="toggle()" [class.open]="open()" aria-label="Open IBS AI Assistant" title="IBS Smart Assistant">
+    <svg class="ai-fab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2a8 8 0 0 1 8 8c0 3-1.5 5.5-4 7l1 3H7l1-3C5.5 15.5 4 13 4 10a8 8 0 0 1 8-8z"/>
+      <path d="M9 10h.01M12 10h.01M15 10h.01"/>
+    </svg>
+    <span class="ai-fab-label">AI</span>
+    <span class="ai-unread-dot" [class.show]="!greeted"></span>
+  </button>
+
+  <!-- Chat panel -->
+  <div class="ai-panel" [class.open]="open()">
+    <div class="ai-panel-header">
+      <div class="ai-panel-title">
+        <div class="ai-avatar-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a8 8 0 0 1 8 8c0 3-1.5 5.5-4 7l1 3H7l1-3C5.5 15.5 4 13 4 10a8 8 0 0 1 8-8z"/>
+            <path d="M9 10h.01M12 10h.01M15 10h.01"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ai-panel-name">IBS Smart Assistant</div>
+          <div class="ai-panel-status"><span class="ai-online-dot"></span> Online</div>
+        </div>
+      </div>
+      <button class="ai-close-btn" (click)="toggle()" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="ai-messages">
+      @for (msg of messages(); track $index) {
+        <div class="ai-msg" [class.bot]="msg.role === 'bot'" [class.user]="msg.role === 'user'">
+          @if (msg.role === 'bot') {
+            <div class="ai-msg-avatar">AI</div>
+          }
+          <div>
+            <div class="ai-msg-bubble" [innerHTML]="msg.text"></div>
+            <div class="ai-msg-time">{{ msg.time }}</div>
+          </div>
+        </div>
+      }
+      @if (typing()) {
+        <div class="ai-msg bot">
+          <div class="ai-msg-avatar">AI</div>
+          <div class="ai-typing"><span></span><span></span><span></span></div>
+        </div>
+      }
+    </div>
+
+    <div class="ai-quick-chips">
+      @for (c of chips; track c.label) {
+        <button class="ai-chip" (click)="sendChip(c.prompt)">{{ c.label }}</button>
+      }
+    </div>
+
+    <form class="ai-input-row" (ngSubmit)="send()" autocomplete="off">
+      <input type="text" placeholder="Ask me anything…" [(ngModel)]="inputText" name="aiInput" autocomplete="off" />
+      <button type="submit" class="ai-send-btn" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h13M13 6l6 6-6 6"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+</div>

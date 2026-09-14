@@ -1,0 +1,47 @@
+.balance-card {
+  background: linear-gradient(135deg, var(--teal, #00847e) 0%, var(--teal-darker, #005450) 100%);
+  color: #fff;
+  border-radius: var(--radius-lg, 14px);
+  padding: 28px 30px;
+  margin-bottom: 26px;
+  box-shadow: 0 8px 28px rgba(0, 132, 126, 0.35);
+}
+
+.acc-label {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+}
+
+.balance {
+  font-size: 36px;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.balance-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.balance-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+
+  svg { width: 16px; height: 16px; }
+  &:hover { color: #fff; }
+}
+
+@media (max-width: 480px) {
+  .balance-card { padding: 22px 20px; }
+  .balance { font-size: 28px; }
+}

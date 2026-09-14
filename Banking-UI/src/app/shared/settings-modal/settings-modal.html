@@ -1,0 +1,48 @@
+<div class="modal-overlay" [class.active]="open" (click)="close()">
+  <div class="modal settings-modal-panel" (click)="$event.stopPropagation()">
+    <div class="modal-header-row">
+      <h3>Settings</h3>
+      <button class="modal-close-btn" (click)="close()">&times;</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-row">
+        <div class="settings-row-info">
+          <div class="settings-row-label">Dark Mode</div>
+          <div class="settings-row-sub">Switch to a darker colour scheme</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" [checked]="darkMode" (change)="toggleDark($any($event.target).checked)" />
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-row">
+        <div class="settings-row-info">
+          <div class="settings-row-label">Font Size</div>
+          <div class="settings-row-sub">Adjust the text size across the app</div>
+        </div>
+        <div class="font-size-controls">
+          <button class="btn-secondary btn-sm" (click)="decreaseFont()">A−</button>
+          <span>{{ fontSize }}%</span>
+          <button class="btn-secondary btn-sm" (click)="increaseFont()">A+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-row">
+        <div class="settings-row-info">
+          <div class="settings-row-label">Hide Balance</div>
+          <div class="settings-row-sub">Mask your account balance for privacy</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" [checked]="hideBalance" (change)="toggleHideBalance($any($event.target).checked)" />
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

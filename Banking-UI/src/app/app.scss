@@ -1,0 +1,281 @@
+// Inter font is loaded once at the document level (index.html), not per-component —
+// an inline @import here used to get counted against this component's style budget.
+
+// ── Theme variables ─────────────────────────────────────────────────────────
+// LIGHT (default) = the "FNB Sim" look: teal/orange gradients, decorative blobs.
+// DARK             = unchanged from the previous IBS-style shell — every value
+// this redesign touches is explicitly re-pinned below so dark mode never moves.
+:host {
+  display: block;
+  --teal: #16a39c;
+  --teal-dark: #0f8a84;
+  --teal-darker: #0b5c56;
+  --orange: #f5821f;
+  --orange-dark: #df7213;
+  --orange-darker: #c25f0f;
+  --white: #ffffff;
+  --ink: #1f2a2e;
+  --grey: #6b7680;
+  --border: #e6e9eb;
+  --bg: #f3f5f6;
+  --error: #dc2626;
+  --error-bg: #fdecec;
+  --success: #16a34a;
+  --success-bg: #eaf7ee;
+  --radius: 8px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+  --shadow-md: 0 8px 24px rgba(16,24,40,.10);
+  --font: 'Inter', system-ui, sans-serif;
+  font-family: var(--font);
+
+  // New in this redesign — the gradient/decorative pieces of the FNB Sim shell.
+  --titlebar-bg: linear-gradient(115deg, #0b5c56 0%, #14968c 45%, #22bfae 100%);
+  --titlebar-text: #ffffff;
+  --titlebar-text-muted: rgba(255,255,255,.78);
+  --logo-bg: #ffffff;
+  --logo-text: var(--teal-dark);
+  --avatar-bg: var(--orange);
+  --sidebar-bg: linear-gradient(180deg, #0d4b45 0%, #062522 100%);
+  --sidebar-text: rgba(255,255,255,.92);
+  --sidebar-text-muted: rgba(255,255,255,.55);
+  --sidebar-active-bg: rgba(255,255,255,.14);
+  --sidebar-active-text: #ffffff;
+  --sidebar-active-border: #ffffff;
+  --card-total-bg: linear-gradient(135deg, #0d6b63 0%, #1fae9f 100%);
+  --create-btn-bg: linear-gradient(120deg, #f5821f 0%, #c2185b 100%);
+  --blob-opacity: 1;
+}
+
+.app-shell[data-theme="dark"] {
+  --white: #1E2124;
+  --ink: #E8EAED;
+  --grey: #9AA0A6;
+  --border: #3C4043;
+  --bg: #131416;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+
+  // Pin every color this redesign introduced/changed back to the pre-existing
+  // dark-mode look — flat surfaces, no gradients, no decorative blobs.
+  --teal: #00847e;
+  --teal-dark: #006763;
+  --teal-darker: #005450;
+  --orange: #FE8211;
+  --orange-dark: #D96D00;
+  --orange-darker: #B55A00;
+
+  --titlebar-bg: var(--white);
+  --titlebar-text: var(--ink);
+  --titlebar-text-muted: var(--grey);
+  --logo-bg: var(--teal);
+  --logo-text: #ffffff;
+  --avatar-bg: var(--teal);
+  --sidebar-bg: var(--white);
+  --sidebar-text: var(--ink);
+  --sidebar-text-muted: var(--grey);
+  --sidebar-active-bg: rgba(36,170,173,0.10);
+  --sidebar-active-text: var(--teal-darker);
+  --sidebar-active-border: var(--teal);
+  --card-total-bg: linear-gradient(135deg, var(--teal) 0%, var(--teal-darker) 100%);
+  --create-btn-bg: var(--orange);
+  --blob-opacity: 0;
+
+  // Bridge for the OLDER pages (Balance Enquiry, Cards, Create Account,
+  // Account Created) that predate this theme and still use the global
+  // palette from styles.css (:root). Those names aren't otherwise touched
+  // by dark mode, so without this their cards/text stay light-only and
+  // become unreadable against the now-dark shell. Overriding them here
+  // (on .app-shell, an ancestor of every routed page) makes them dark-aware
+  // without editing each page's own markup.
+  --surface: var(--white);
+  --text: var(--ink);
+  --muted: var(--grey);
+  --muted-2: var(--grey);
+  --teal-tint: rgba(0, 132, 126, 0.18);
+  --teal-active: var(--teal);
+  --green: #4ade80;
+  --danger: #f87171;
+  --danger-tint: rgba(248, 113, 113, 0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+// ── Titlebar ──────────────────────────────────────────────────────────────────
+.titlebar {
+  flex: 0 0 64px;
+  background: var(--titlebar-bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  box-shadow: var(--shadow-sm);
+}
+
+.tb-left { display: flex; align-items: center; gap: 6px; }
+.tb-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--titlebar-text);
+
+  .logo-mark {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--logo-bg); color: var(--logo-text);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; flex-shrink: 0;
+  }
+
+  .brand-text {
+    display: flex; flex-direction: column; line-height: 1.25;
+    strong { font-size: 16px; }
+  }
+  .brand-sub {
+    font-size: 10px; font-weight: 700; letter-spacing: .6px;
+    color: var(--titlebar-text-muted);
+  }
+}
+
+.tb-right { display: flex; align-items: center; gap: 10px; }
+
+.tb-icon-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--titlebar-text-muted); background: none; border: none; cursor: pointer;
+  position: relative;
+
+  svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  &:hover { background: rgba(255,255,255,.12); color: var(--titlebar-text); }
+}
+
+.tb-user { display: flex; align-items: center; gap: 10px; }
+.tb-user-text {
+  display: flex; flex-direction: column; line-height: 1.25;
+  strong { font-size: 13.5px; font-weight: 700; color: var(--titlebar-text); }
+}
+.tb-user-sub { font-size: 11px; color: var(--titlebar-text-muted); }
+
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--avatar-bg); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; flex-shrink: 0;
+}
+
+.chevron-icon { width: 15px; height: 15px; stroke: var(--titlebar-text-muted); fill: none; stroke-width: 1.8; }
+
+// ── App body ──────────────────────────────────────────────────────────────────
+.app-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  position: relative;
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+.sidebar-backdrop {
+  display: none;
+  position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+  background: rgba(26,26,26,0.45); z-index: 55;
+  opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  &.open { opacity: 1; pointer-events: auto; }
+}
+
+.sidebar {
+  flex: 0 0 236px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 22px 14px;
+  overflow-y: auto;
+}
+
+.sb-nav-heading {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 10px 14px;
+  font-size: 11px; font-weight: 700; letter-spacing: .8px;
+  color: var(--sidebar-text-muted);
+  svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+}
+
+.nav-list {
+  list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px;
+
+  a {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; text-align: left; padding: 11px 14px;
+    border-radius: var(--radius); font-size: 14px; font-weight: 600;
+    color: var(--sidebar-text); background: none; border: none; cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+
+    svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; flex-shrink: 0; }
+    &:hover { background: var(--sidebar-active-bg); }
+    &.active {
+      background: var(--sidebar-active-bg); color: var(--sidebar-active-text);
+      border-left: 3px solid var(--sidebar-active-border); padding-left: 11px;
+    }
+  }
+}
+
+.sb-spacer { flex: 1; }
+
+.sb-tagline {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 14px 10px 4px;
+  color: var(--sidebar-text-muted);
+  font-size: 12.5px; font-weight: 600; line-height: 1.5;
+  svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+}
+
+// ── Main area ─────────────────────────────────────────────────────────────────
+.main-area {
+  flex: 1;
+  padding: 36px 44px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed; top: 64px; left: 0; bottom: 0;
+    z-index: 60; width: 240px;
+    transform: translateX(-100%); transition: transform .2s ease;
+    box-shadow: var(--shadow-md);
+    &.open { transform: translateX(0); }
+  }
+  .sidebar-backdrop { display: block; }
+  .main-area { padding: 22px 20px; }
+  .tb-menu-btn { display: flex !important; }
+}
+
+@media (max-width: 480px) {
+  .brand-text { display: none; }
+  .tb-user-text { display: none; }
+  .main-area { padding: 16px 14px; }
+}
+
+.tb-menu-btn {
+  display: none;
+  width: 38px; height: 38px; border-radius: 50%;
+  align-items: center; justify-content: center;
+  color: var(--titlebar-text-muted); background: none; border: none; cursor: pointer;
+  svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  &:hover { background: rgba(255,255,255,.12); color: var(--titlebar-text); }
+}

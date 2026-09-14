@@ -1,0 +1,96 @@
+// Four-dot "infinity" loader, adapted to use the app's own palette
+// (--teal / --success / --orange / --error — all already dark-mode-aware,
+// inherited from the .app-shell ancestor) instead of the original hsla() set.
+//
+// $size: 4em, $thickness: 0.7em
+// $lat    = (size - thickness) / 2 = 1.65em   (hand-computed to avoid Sass division)
+// $offset = lat - thickness        = 0.95em
+// radius  = thickness / 2          = 0.35em
+
+.route-loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Fully opaque and theme-driven: near-white in light mode, near-black in dark
+  // mode (same --bg the rest of the shell uses) — not a translucent scrim, so it
+  // actually masks the outgoing page instead of just tinting it.
+  background: var(--bg, #f3f5f6);
+}
+
+.loader {
+  position: relative;
+  width: 4em;
+  height: 4em;
+  transform: rotate(165deg);
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 0.7em;
+    height: 0.7em;
+    border-radius: 0.35em;
+    transform: translate(-50%, -50%);
+  }
+
+  &:before { animation: route-loader-before 2s infinite; }
+  &:after  { animation: route-loader-after 2s infinite; }
+}
+
+@keyframes route-loader-before {
+  0% {
+    width: 0.7em;
+    box-shadow:
+      1.65em -0.95em var(--teal),
+      -1.65em 0.95em var(--orange);
+  }
+  35% {
+    width: 4em;
+    box-shadow:
+      0 -0.95em var(--teal),
+      0  0.95em var(--orange);
+  }
+  70% {
+    width: 0.7em;
+    box-shadow:
+      -1.65em -0.95em var(--teal),
+      1.65em 0.95em var(--orange);
+  }
+  100% {
+    box-shadow:
+      1.65em -0.95em var(--teal),
+      -1.65em 0.95em var(--orange);
+  }
+}
+
+@keyframes route-loader-after {
+  0% {
+    height: 0.7em;
+    box-shadow:
+      0.95em 1.65em var(--success),
+      -0.95em -1.65em var(--error);
+  }
+  35% {
+    height: 4em;
+    box-shadow:
+       0.95em 0 var(--success),
+      -0.95em 0 var(--error);
+  }
+  70% {
+    height: 0.7em;
+    box-shadow:
+      0.95em -1.65em var(--success),
+      -0.95em 1.65em var(--error);
+  }
+  100% {
+    box-shadow:
+      0.95em 1.65em var(--success),
+      -0.95em -1.65em var(--error);
+  }
+}
